@@ -1,6 +1,6 @@
 # file-organizer
 
-Simple rust application to organize files in a giving directory
+Simple rust application to organize files in a given directory
 
 ## Requirement
 
