@@ -1,7 +1,7 @@
-use std::{fs, io, env, process::Command};
+use std::{env, fs, io, path::Path, process::Command};
 
 fn main() {
-    let path = env::args().nth(1).expect("Path is required");
+    let path = env::args().nth(1).expect("Directory is required");
     let list = dump_dir(path.as_str()).unwrap();
     move_files(list, path.as_str());
 }
@@ -27,9 +27,16 @@ fn move_file(path: &str, name: &str, dest: &str) {
     newpath.push_str("/");
     newpath.push_str(dest);
     let err = format!("Failed to chdir to {}", newpath);
+    match check_directory(newpath.as_str()) {
+        Ok(_) => {}
+        Err(e) => {
+            println!("Failed to create directory: {}, Causes: {}", newpath, e);
+            std::process::exit(1);
+        }
+    }
     std::env::set_current_dir(newpath).expect(err.as_str());
     let status = Command::new("mv")
-        .args(&[name, String::from(".").as_str()])
+        .args(&[name, "."])
         .status()
         .expect("failed to move file");
     println!("[StatusCode: {}] {}", status.success(), name);
@@ -49,4 +56,11 @@ fn move_files(list: Vec<(String, String)>, path: &str) {
             move_file(path, f.0.as_str(), "Misc");
         }
     }
+}
+
+fn check_directory(d: &str) -> std::io::Result<()> {
+    if !Path::new(d).is_dir() {
+        fs::create_dir(d)?;
+    }
+    Ok(())
 }
