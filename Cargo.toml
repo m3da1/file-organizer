@@ -1,6 +1,6 @@
 [package]
-name = "file_types"
-version = "0.1.0"
+name = "organizer"
+version = "0.1.1"
 authors = ["Mark Doh <mark.elorm.doh@gmail.com>"]
 edition = "2018"
 
@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 mime_guess = "2.0.3"
+structopt = "0.3.25"
