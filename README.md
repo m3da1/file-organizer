@@ -1,4 +1,4 @@
-# file-organizer
+# organizer
 
 Simple rust application to organize files in a given directory
 
