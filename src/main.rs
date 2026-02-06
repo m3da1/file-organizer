@@ -1,9 +1,14 @@
-use structopt::StructOpt;
+use clap::Parser;
 
 mod cli;
+mod error;
+mod tui;
 
-fn main() -> std::io::Result<()> {
-    let args = cli::MyOrganizer::from_args();
-    cli::organizer_files(args.path)?;
-    Ok(())
+fn main() {
+    let args = cli::MyOrganizer::parse();
+
+    if let Err(e) = cli::organizer_files(args) {
+        eprintln!("Error: {}", e);
+        std::process::exit(1);
+    }
 }
