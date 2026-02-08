@@ -42,4 +42,5 @@ jobs:
         with:
           name: binaries-${{ matrix.os }}
           path: |
-            target/release/
+            target/release/organizer*
+          retention-days: 60
